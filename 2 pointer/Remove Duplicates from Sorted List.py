@@ -78,10 +78,7 @@ class Solution:
         
         # return res
 
-
-
-
-            
+          
                 
 # Example usage:
 solution = Solution()
@@ -89,7 +86,7 @@ ll = LinkedList()
 
 # arr = [1,1,2]
 # arr = []
-arr = [1,1,2,3,3]
+arr = [1,1,2,3,3,3]
 
 head = ll.listToLinkedList(arr)
 ll.printList(head)
