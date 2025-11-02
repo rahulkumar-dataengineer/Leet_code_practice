@@ -38,7 +38,7 @@ class Solution:
         
         digits[left], digits[right] = digits[right], digits[left]
 
-        digits[left+1:] = sorted(digits[left+1:])
+        digits[left+1:] = digits[-1:left:-1]
 
         min_value = int("".join(digits))
         return min_value if min_value < (1<<31) else -1 

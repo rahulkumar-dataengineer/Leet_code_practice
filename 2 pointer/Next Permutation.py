@@ -58,7 +58,7 @@ class Solution:
         nums[left], nums[right] = nums[right], nums[left]
 
         # sort the array from left+1 - after the pivot
-        nums[left+1:] = sorted(nums[left+1:])
+        nums[left+1:] = nums[-1:left:-1]
 
         
 
