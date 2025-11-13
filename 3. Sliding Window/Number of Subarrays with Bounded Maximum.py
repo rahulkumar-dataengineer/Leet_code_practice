@@ -24,7 +24,23 @@ from typing import List
 
 class Solution:
     def numSubarrayBoundedMax(self, nums: List[int], left: int, right: int) -> int:
-        return
+        left_boundry = right_boundry = 0
+        last_valid = -1   # Track last index where nums[i] is within [left, right]
+        count = 0
+        length = len(nums)
+
+        while right_boundry < length:
+            if nums[right_boundry] > right:
+                left_boundry = right_boundry = right_boundry + 1
+                last_valid = -1  # reset; not possible to form valid subarray
+                continue
+            if left <= nums[right_boundry] <= right:
+                last_valid = right_boundry
+            if last_valid != -1:
+                count += last_valid - left_boundry + 1
+            right_boundry += 1
+
+        return count
 
 
 solution = Solution()
@@ -37,5 +53,11 @@ print(solution.numSubarrayBoundedMax(nums, left, right))# Output: 3
 nums = [2,9,2,5,6]
 left = 2
 right = 8
-print(solution.numSubarrayBoundedMax(nums, left, right))# Output: 3
+print(solution.numSubarrayBoundedMax(nums, left, right))# Output: 7
+
+nums = [73,55,36,5,55,14,9,7,72,52]
+left = 32
+right = 69
+print(solution.numSubarrayBoundedMax(nums, left, right))# Output: 22
+
         
