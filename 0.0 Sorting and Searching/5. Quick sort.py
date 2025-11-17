@@ -12,20 +12,17 @@ arr = [10, 12, 8, 7, 61, 78, 13, 87, 2, 0, 5]
 length = len(arr)
 
 def findPartition(arr, low, high):
-    left = low
+    pivot = left = low
     right = high
 
-    pivot = arr[left]
-    
-
     while left < right:
-        while arr[left] <= pivot and left < high:
+        while arr[left] <= arr[pivot] and left < high:
             left+=1
-        while arr[right] > pivot and right > low:
+        while arr[right] > arr[pivot] and right > low:
             right-=1
         if left < right:
             arr[left], arr[right] = arr[right], arr[left]
-    arr[low], arr[right] = arr[right], arr[low]
+    arr[pivot], arr[right] = arr[right], arr[pivot]
     
     return right
 
