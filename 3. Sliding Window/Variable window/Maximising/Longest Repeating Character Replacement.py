@@ -26,7 +26,25 @@ s consists of only uppercase English letters.
 
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        return 
+        length = len(s)
+        left = right = 0
+        max_length = 0
+        maxf = 0
+        seen = {}
+
+        while right < length:
+            seen[s[right]] = 1 + seen.get(s[right], 0)
+            maxf = max(maxf, seen[s[right]])
+            window_len = right - left + 1
+            
+            while left <= right and (window_len - maxf) > k:
+                seen[s[left]] -= 1
+                left += 1
+                window_len -= 1
+
+            max_length = max(max_length, window_len)
+            right += 1
+        return max_length
     
 solution = Solution()
 s = "ABAB"
