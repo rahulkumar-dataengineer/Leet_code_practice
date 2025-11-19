@@ -30,14 +30,56 @@ s and t consist of uppercase and lowercase English letters.
 Follow up: Could you find an algorithm that runs in O(m + n) time?
 '''
 
+# class Solution:
+#     def checkValidity(self, count_s, count_t):
+#             for key in count_t.keys():
+#                 if count_s.get(key, 0) < count_t[key]:
+#                     return False
+#             return True
+
+#     def minWindow(self, s: str, t: str) -> str:
+#         length = len(s)
+#         window = len(t)
+#         min_length = ""
+
+#         left = 0
+#         right = window
+
+#         count_s = {}
+#         count_t = {}
+
+#         if window > length:
+#             return min_length
+
+#         for index in range(window):
+#             count_s[s[index]] = 1 + count_s.get(s[index], 0)
+#             count_t[t[index]] = 1 + count_t.get(t[index], 0)
+
+#         if self.checkValidity(count_s, count_t):
+#             min_length = s[left:right]
+            
+        
+#         while right < length:
+#             count_s[s[right]] = 1 + count_s.get(s[right], 0)
+
+#             while left <= right and self.checkValidity(count_s, count_t):
+#                 candidate = s[left:right+1]
+#                 if not min_length or len(candidate) < len(min_length):
+#                     min_length = candidate
+#                 count_s[s[left]] -= 1
+#                 if count_s[s[left]] == 0:
+#                     del count_s[s[left]]
+#                 left += 1
+#             right += 1
+        
+#         return min_length
+
+
+
+'''
+after seeing neetcode video
+'''
 class Solution:
-    def checkValidity(self, count_s, count_t):
-            for key in count_t.keys():
-                if count_s.get(key, 0) < count_t[key]:
-                    return False
-            return True
-
-
     def minWindow(self, s: str, t: str) -> str:
         length = len(s)
         window = len(t)
@@ -55,21 +97,34 @@ class Solution:
         for index in range(window):
             count_s[s[index]] = 1 + count_s.get(s[index], 0)
             count_t[t[index]] = 1 + count_t.get(t[index], 0)
+        
+        have = 0
+        need = len(count_t)
 
-        if self.checkValidity(count_s, count_t):
+        for character in count_t:
+            if character in count_s and count_s[character] >= count_t[character]:
+                have += 1
+        
+        if have == need:
             min_length = s[left:right]
             
-        
         while right < length:
             count_s[s[right]] = 1 + count_s.get(s[right], 0)
+            
+            if s[right] in count_t and count_s[s[right]] == count_t[s[right]]:
+                have += 1
 
-            while left <= right and self.checkValidity(count_s, count_t):
+            while left <= right and have == need:
                 candidate = s[left:right+1]
+                
                 if not min_length or len(candidate) < len(min_length):
                     min_length = candidate
+                
                 count_s[s[left]] -= 1
-                if count_s[s[left]] == 0:
-                    del count_s[s[left]]
+                
+                if s[left] in count_t and count_s[s[left]] < count_t[s[left]]:
+                    have -= 1
+                
                 left += 1
             right += 1
         
@@ -93,7 +148,7 @@ print(solution.minWindow(s, t)) # Output: ""
 
 s = "ab"
 t = "A"
-print(solution.minWindow(s, t)) # Output: "a"
+print(solution.minWindow(s, t)) # Output: ""
 
 s = "ab"
 t = "b"
@@ -102,6 +157,7 @@ print(solution.minWindow(s, t)) # Output: "b"
 s = "abc"
 t = "cba"
 print(solution.minWindow(s, t)) # Output: "abc"
+
 
 s = "bbaa"
 t = "aba"
