@@ -30,14 +30,29 @@ from typing import List
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort(key = lambda x: x[0])
-        output = [intervals[0]]
+        length = len(intervals)
+        output = []
+        start = 0
+        end = 1
 
-        for start, end in intervals[1:]:
-            previous_end = output[-1][1]
-            if start <= previous_end:
-                output[-1][1] = max(previous_end, end)
+        if length == 0:
+            return output
+
+        curr = intervals[0]
+        
+        for index in range(1, length):
+            if curr[end] < intervals[index][start]:
+                output.append(curr)
+                curr = intervals[index]
+            
+            elif curr[start] > intervals[index][end]:
+                output.append(intervals[index])
             else:
-                output.append([start, end])
+                curr = [
+                    min(intervals[index][start], curr[start]),
+                    max(intervals[index][end], curr[end])
+                ]
+        output.append(curr)
         return output
 
 
@@ -52,3 +67,5 @@ print(solution.merge(intervals)) # Output: [[1,5]]
 
 intervals = [[4,7],[1,4]]
 print(solution.merge(intervals)) # Output: [[1,7]]
+
+

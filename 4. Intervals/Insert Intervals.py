@@ -34,23 +34,29 @@ from typing import List
 
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        intervals.sort(key = lambda x: x[0])
+        length = len(intervals)
         output = []
         start = 0
         end = 1
+
+        if length == 0:
+            return output
+
+        curr = newInterval
         
-        for index in range(len(intervals)):
-            if newInterval[end] < intervals[index][start]:
-                output.append(newInterval)
-                return output + intervals[index:]
-            elif newInterval[start] > intervals[index][end]:
+        for index in range(length):
+            if curr[end] < intervals[index][start]:
+                output.append(curr)
+                curr = intervals[index]
+            
+            elif curr[start] > intervals[index][end]:
                 output.append(intervals[index])
             else:
-                newInterval = [
-                    min(intervals[index][start], newInterval[start]),
-                    max(intervals[index][end], newInterval[end])
+                curr = [
+                    min(intervals[index][start], curr[start]),
+                    max(intervals[index][end], curr[end])
                 ]
-        output.append(newInterval)
+        output.append(curr)
         return output
 
 
