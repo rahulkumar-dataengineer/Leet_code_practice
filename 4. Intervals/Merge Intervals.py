@@ -38,21 +38,19 @@ class Solution:
         if length == 0:
             return output
 
-        curr = intervals[0]
+        prev = intervals[0]
         
         for index in range(1, length):
-            if curr[end] < intervals[index][start]:
-                output.append(curr)
-                curr = intervals[index]
-            
-            elif curr[start] > intervals[index][end]:
-                output.append(intervals[index])
+            curr = intervals[index]
+            if prev[end] < curr[start]:
+                output.append(prev)
+                prev = curr
             else:
-                curr = [
-                    min(intervals[index][start], curr[start]),
-                    max(intervals[index][end], curr[end])
+                prev = [
+                    min(curr[start], prev[start]),
+                    max(curr[end], prev[end])
                 ]
-        output.append(curr)
+        output.append(prev)
         return output
 
 
