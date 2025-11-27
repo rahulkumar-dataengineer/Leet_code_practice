@@ -35,6 +35,29 @@ Constraints:
 from typing import List
 
 class Solution:
+    def findMiddleIndex1(self, nums: List[int]) -> int:
+        length = len(nums)
+        lsum = [0] * length
+        rsum = [0] * length
+
+        lsum[0] = nums[0]
+        for index in range(1, length):
+            lsum[index] = lsum[index - 1] + nums[index]
+        
+        rsum[-1] = nums[-1]
+        for index in range(length - 2, -1, -1):
+            rsum[index] = rsum[index + 1] + nums[index]
+
+        for index in range(length):
+            if rsum[index] == lsum[index]:
+                return index
+        return -1
+        
+    
+    '''
+    total = lsum + value + rsum, rearranging this rsum = total - value - lsum
+    for each index compare the lsum == rusm, if not move to next index
+    '''    
     def findMiddleIndex(self, nums: List[int]) -> int:
         total = sum(nums)
         lsum = 0
