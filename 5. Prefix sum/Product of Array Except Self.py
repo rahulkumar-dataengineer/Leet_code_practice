@@ -57,6 +57,8 @@ class Solution:
         for i in range(len(nums) - 1, -1, -1):
             output[i] *= postfix
             postfix *= nums[i]
+        
+        return output
 
         
 
